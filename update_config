@@ -1,0 +1,10 @@
+#/bin/bash
+if ! grep -q "^$1=$2$" .config; then
+    if grep -q "^# $1 is not set$" .config; then
+        sed -i -e "s/^# $1 is not set$/$1=$2/g" .config
+    elif grep -q "^$1=" .config; then
+        sed -i -e "s/^$1=.*/$1=$2/g" .config
+    else
+        echo "$1=$2" >>.config
+    fi
+fi
